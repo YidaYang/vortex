@@ -7,7 +7,7 @@ run apt-get update && apt-get install -y git python3-pip python3-tomli && rm -rf
 copy pyproject.toml .
 run python3 -c 'import tomli;\
                 p = tomli.load(open("pyproject.toml", "rb"))["project"];\
-                print("\n".join(p["dependencies"] + p["optional-dependencies"]["special"]))'\
+                print("\n".join(p["dependencies"] + p.get("optional-dependencies", {"special": []})["special"]))'\
     > requirements.txt
 # Must install torch first, as transformer engine build process will need it
 run pip install `cat requirements.txt | grep ^torch`
